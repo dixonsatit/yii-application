@@ -1,18 +1,19 @@
 <?php
 
-namespace frontend\modules\tutorial\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\modules\tutorial\models\Employee;
+use frontend\models\Employee;
 
 /**
- * EmployeeSearch represents the model behind the search form about `frontend\modules\tutorial\models\Employee`.
+ * EmployeeSearch represents the model behind the search form about `frontend\models\Employee`.
  */
 class EmployeeSearch extends Employee
 {
     public $fullname;
+
     /**
      * @inheritdoc
      */
@@ -20,7 +21,7 @@ class EmployeeSearch extends Employee
     {
         return [
             [['emp_id', 'sex', 'salary', 'age', 'marital', 'count_download_resume'], 'integer'],
-            [['title', 'name', 'surname', 'address', 'zip_code', 'birthday', 'email', 'mobile_phone', 'modify_date', 'create_date', 'position', 'expire_date', 'website', 'skill', 'countries', 'experience', 'personal_id', 'province', 'amphur', 'district', 'social', 'resume', 'token_forupload','fullname'], 'safe'],
+            [['fullname','title', 'name', 'surname', 'address', 'zip_code', 'birthday', 'email', 'mobile_phone', 'modify_date', 'create_date', 'position', 'expire_date', 'website', 'skill', 'countries', 'experience', 'personal_id', 'province', 'amphur', 'district', 'social', 'resume', 'token_forupload'], 'safe'],
         ];
     }
 
@@ -52,16 +53,20 @@ class EmployeeSearch extends Employee
 
         $this->load($params);
 
-        $dataProvider->sort->attributes['fullname'] = [
-          'asc'=>['name'=>SORT_ASC,'surname'=>SORT_ASC],
-          'desc'=>['name'=>SORT_DESC,'surname'=>SORT_DESC],
-        ];
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $dataProvider->sort->attributes['fullname'] = [
+          'asc'=>['name'=>SORT_ASC, 'surname'=> SORT_ASC],
+          'desc' =>['name'=>SORT_DESC, 'surname'=> SORT_DESC],
+        ];
+
+        $query->andWhere(' name LIKE :fullname OR surname LIKE :fullname ',[
+          ':fullname' => '%'.$this->fullname.'%'
+        ]);
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -75,10 +80,6 @@ class EmployeeSearch extends Employee
             'age' => $this->age,
             'marital' => $this->marital,
             'count_download_resume' => $this->count_download_resume,
-        ]);
-
-        $query->andWhere(' name LIKE :fullname OR surname LIKE :fullname',[
-          ':fullname' => "%{$this->fullname}%"
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])

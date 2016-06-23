@@ -38,7 +38,12 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Homepage', 'url' => ['/homepage/index']],
+        // SubMenu
+        ['label' => 'Workshop', 'items'=>[
+          ['label' => 'Homepage', 'url' => ['/homepage/index']],
+          ['label' => 'Person', 'url' => ['/person/index']],
+          ['label' => 'Employee', 'url' => ['/employee/index']],
+        ]],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

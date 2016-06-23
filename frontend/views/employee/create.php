@@ -4,20 +4,18 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model frontend\modules\tutorial\models\Employee */
+/* @var $model frontend\models\Employee */
 
 $this->title = 'Create Employee';
 $this->params['breadcrumbs'][] = ['label' => 'Employees', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
+<div class="employee-create">
 
-<div class="employee-create panel panel-default">
-<div class="panel-body">
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <?= $this->render('_form', [
-      'model' => $model,
-      'amphur'=> $amphur,
-      'district' =>$district,
+        'model' => $model,
     ]) ?>
-</div>
+
 </div>

@@ -1,10 +1,10 @@
 <?php
+
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\modules\tutorial\models\EmployeeSearch */
+/* @var $searchModel frontend\models\EmployeeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Employees';
@@ -18,37 +18,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Employee', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'tableOptions' => ['class'=>'table'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
+            //'emp_id',
+            //'sex',
             [
-              'attribute' => 'sex',
-              'format' => 'html',
-              'filter' => $searchModel->getItemSex(),
-              'options' => ['style'=>'width:50px;'],
-              'contentOptions' => ['class'=>'text-center'],
-              'value' => function($model){
-                $filename =  $model->sex == 1 ? 'men.png' : 'women.png';
-                return Html::img(Url::base().'/images/'.$filename);
-                //return $model->sexName;
-                //return $model->getSexName();
-              }
+              'attribute'=>'sex',
+              'filter'=> [1=>'ชาย',2=>'หญิง']
             ],
+            'fullname',
+            // [
+            //   'attribute'=>'fullname',
+            //   'value'=>function($model){
+            //     return $model->getFullname();
+            //   }
+            // ],
+            'email:email',
+            'mobile_phone',
+            'position',
             // 'title',
             // 'name',
             // 'surname',
-            'fullname',
             // 'address:ntext',
             // 'zip_code',
             // 'birthday',
-            'email:email',
-            'mobile_phone',
+
             // 'modify_date',
-            // 'create_date',
-            'position',
+            //'create_date:php:m/d/Y',
+            // [
+            //   'attribute'=>'create_date',
+            //   'format'=>['date', 'php:Y-m-d']
+            // ],
+
             // 'salary',
             // 'expire_date',
             // 'website',

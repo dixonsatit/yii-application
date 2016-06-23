@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\tutorial\models;
+namespace frontend\models;
 
 use Yii;
 
@@ -50,24 +50,21 @@ class Employee extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-     public function rules()
-     {
-         return [
-             [['title','name','surname','sex'], 'required'],
-             [['emp_id', 'salary','province','amphur','district','marital','sex','age','count_download_resume'], 'integer'],
-             [['address'], 'string'],
-             [['birthday', 'modify_date', 'create_date', 'expire_date','social','skill'], 'safe'],
-             [['title'], 'string', 'max' => 50],
-             [['name', 'surname', 'email','token_forupload'], 'string', 'max' => 100],
-             [['zip_code','countries','experience'], 'string', 'max' => 10],
-             [['mobile_phone','personal_id'], 'string', 'max' => 20],
-             [['website','position'], 'string', 'max' => 150],
-             //[['skill'], 'string', 'max' => 255],
-             [['resume'],'file'],
-             [['email'],'email'],
-             [['website'],'url']
-         ];
-     }
+    public function rules()
+    {
+        return [
+            [['sex', 'salary', 'age', 'marital', 'count_download_resume'], 'integer'],
+            [['address'], 'string'],
+            [['birthday', 'modify_date', 'create_date', 'expire_date'], 'safe'],
+            [['title'], 'string', 'max' => 50],
+            [['name', 'surname', 'email', 'resume', 'token_forupload'], 'string', 'max' => 100],
+            [['zip_code', 'countries', 'experience'], 'string', 'max' => 10],
+            [['mobile_phone', 'personal_id'], 'string', 'max' => 20],
+            [['position', 'website', 'social'], 'string', 'max' => 150],
+            [['skill'], 'string', 'max' => 255],
+            [['province', 'amphur', 'district'], 'string', 'max' => 6],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -75,9 +72,9 @@ class Employee extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'fullname'=>'ชื่อ-นามสกุล',
             'emp_id' => 'Emp ID',
             'sex' => 'เพศ',
-            'fullname' => 'ชื่อ-นามสกุล',
             'title' => 'คำนำหน้า',
             'name' => 'ชื่อ',
             'surname' => 'นามสกุล',
@@ -120,51 +117,20 @@ class Employee extends \yii\db\ActiveRecord
     public function getFullname(){
       return $this->title.$this->name.' '.$this->surname;
     }
+//
+    // $model->fullname
+    // $model->getFullname();
 
-    public function itemAlias($type){
-      $items = [
-        'sex' => [
-            '1' => 'ชาย',
-            '2' => 'หญิง',
-        ],
-        'marital' => [
-            '1' => 'โสด',
-            '2' => 'สมรส',
-            '3' => 'อย่างร้าง',
-            '4' => 'แยกกันอยู่',
-            '5' => 'หมา้ย',
-        ],
-        'skill'=>[
-            'Objective C'=>'Objective C',
-            'Python'=>'Python',
-            'Java'=>'Java',
-            'JavaScript'=>'JavaScript',
-            'PHP'=>'PHP',
-            'SQL'=>'SQL',
-            'Ruby'=>'Ruby',
-            'FoxPro'=>'FoxPro',
-            'C++'=>'C++',
-            'C'=>'C',
-            'ASP'=>'ASP',
-            'Assembly'=>'Assembly',
-            'Visual Basic'=>'Visual Basic'
-        ],
-        'social' => [
-            'facebook' => 'Facebook',
-            'twiter' => 'Twiter',
-            'google+' => 'Google+',
-            'tumblr' => 'Tumblr'
-        ],
-      ];
-      return array_key_exists($type, $items) ? $items[$type] : [];
-    }
 
-    public function getItemSex(){
-      return $this->itemAlias('sex');
-    }
 
-    public function getSexName(){
-      $items = $this->getItemSex();
-      return array_key_exists($this->sex, $items) ? $items[$this->sex] : null;
-    }
+
+
+
+
+
+
+
+
+
+
 }
